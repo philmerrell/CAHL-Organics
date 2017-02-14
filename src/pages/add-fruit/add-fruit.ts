@@ -53,4 +53,8 @@ export class AddFruitPage {
     this.viewCtrl.dismiss(fruit);
   }
 
+  closeModal() {
+    this.viewCtrl.dismiss();
+  }
+
 }
