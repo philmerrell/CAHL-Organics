@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-  <form [formGroup]="mealForm">
+  <form [formGroup]="mealForm" novalidate>
     <ion-card>
       <img src="assets/placeholder.jpg">
       <ion-fab right style="margin-top: -30px; margin-right: 30px;">
@@ -30,7 +30,7 @@
         <ion-item>
           <!-- TODO: Pull options in dynamically from endpoint -->
           <ion-label>Meal Type</ion-label>
-          <ion-select [formControl]="mealForm.controls['type']">
+          <ion-select [formControl]="mealForm.controls['type']" required>
             <ion-option value="Breakfast">Breakfast</ion-option>
             <ion-option value="Lunch">Lunch</ion-option>
             <ion-option value="Dinner">Dinner</ion-option>
@@ -39,6 +39,7 @@
             <ion-option value="Beverage">Beverage</ion-option>
             <ion-option value="Other">Other</ion-option>
           </ion-select>
+          <div [hidden]="mealForm.controls.type.valid || !mealForm.controls.type.touched">A meal type is required</div>
         </ion-item>
       </ion-list>
     </ion-card>
@@ -58,5 +59,5 @@
   </div>
 </ion-content>
 <ion-footer>
-  <button *ngIf="meal.length" (click)="submitMeal()" full ion-button color="danger" block>Submit Meal</button>
+  <button *ngIf="meal.length" (click)="submitMeal()" [disabled]="!mealForm.valid || !meal.length" full ion-button color="danger" block>Submit Meal</button>
 </ion-footer>

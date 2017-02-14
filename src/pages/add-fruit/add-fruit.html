@@ -18,7 +18,7 @@
       <ion-item>
         <!-- TODO: Pull options in dynamically from endpoint -->
         <ion-label>Produce</ion-label>
-        <ion-select [formControl]="fruitForm.controls['name']">
+        <ion-select [formControl]="fruitForm.controls['name']" required>
           <ion-option value="Apple">Apple</ion-option>
           <ion-option value="Banana">Banana</ion-option>
           <ion-option value="Orange">Orange</ion-option>
@@ -27,7 +27,6 @@
       <ion-item>
         <ion-label>Portion</ion-label>
         <ion-input [formControl]="fruitForm.controls['portion']" type="number" min="0.25" max="24" step="0.25" required></ion-input>
-        <!--<ion-input type="number" ><ion-input>-->
       </ion-item>
       <ion-item>
         <ion-label>Provided</ion-label>
@@ -39,7 +38,7 @@
       </ion-item>
     </ion-list>
   <div padding>
-    <button (click)="addFruit()" ion-button color="secondary" block>Add Fruit</button>
+    <button (click)="addFruit()" [disabled]="!fruitForm.valid" ion-button color="secondary" block>Add Fruit</button>
   </div>
   </form>
 </ion-content>
