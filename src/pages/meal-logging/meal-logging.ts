@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NavController, NavParams, ModalController, LoadingController, ToastController } from 'ionic-angular';
 import { AddFruitPage } from '../add-fruit/add-fruit';
 
 /*
@@ -14,12 +15,27 @@ import { AddFruitPage } from '../add-fruit/add-fruit';
 })
 export class MealLoggingPage {
   meal = [];
+  mealForm: FormGroup;
+  type: AbstractControl;
+  notes: AbstractControl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {}
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              private modalCtrl: ModalController, 
+              private loadingCtrl: LoadingController,
+              private toastCtrl: ToastController,
+              public fb: FormBuilder) {
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MealLoggingPage');
-  }
+                this.mealForm = fb.group({
+                  'type'  : ['', Validators.required],
+                  'notes' : ['']
+                });
+
+                this.type = this.mealForm.controls['type'];
+                this.notes = this.mealForm.controls['notes'];
+              }
+
+  ionViewDidLoad() {}
 
   showAddFruitModal() {
     let modal = this.modalCtrl.create(AddFruitPage);
@@ -30,6 +46,40 @@ export class MealLoggingPage {
         this.meal.push(data);
       }
     });
+  }
+
+  submitMeal() {
+    // TOOD: Submit meal to endpoint.
+    this.presentLoading();
+    setTimeout(() => {
+      this.resetMeal();
+      // TODO: reset form...
+      this.presentToast();
+    }, 2000);
+  }
+
+  presentLoading() {
+    let loader = this.loadingCtrl.create({
+      content: "Submitting meal...",
+      duration: 2000
+    });
+
+    loader.present();
+    return loader;
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Meal was submitted successfully',
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  resetMeal() {
+    this.type.setValue('');
+    this.notes.setValue('');
+    this.meal = [];
   }
 
 }
