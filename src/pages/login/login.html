@@ -1,0 +1,36 @@
+<!--
+  Generated template for the Login page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Welcome</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form autocomplete="on" [formGroup]="loginForm">
+    <ion-card>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Username</ion-label>
+          <ion-input [formControl]="loginForm.controls['username']" type="text" required></ion-input>
+          <div [hidden]="username.valid || !username.touched">A username is required</div>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Password</ion-label>
+          <ion-input [formControl]="loginForm.controls['password']" type="password" required></ion-input>
+          <div [hidden]="password.valid || !password.touched">A password is required</div>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+  </form>
+  <div padding>
+    <button [disabled]="!loginForm.valid" (click)="onSubmit()" ion-button color="primary" block>Sign In</button>
+  </div>
+</ion-content>
