@@ -14,7 +14,6 @@
 
 
 <ion-content padding>
-
   <form>
     <ion-card>
       <img src="assets/placeholder.jpg">
@@ -25,30 +24,39 @@
       </ion-fab>
       <ion-list>
         <ion-item>
-      <ion-label floating>Notes</ion-label>
-      <ion-textarea></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <!-- TODO: Pull options in dynamically from endpoint -->
-      <ion-label>Meal Type</ion-label>
-      <ion-select>
-        <ion-option value="Breakfast">Breakfast</ion-option>
-        <ion-option value="Lunch">Lunch</ion-option>
-        <ion-option value="Dinner">Dinner</ion-option>
-        <ion-option value="Snack">Snack</ion-option>
-        <ion-option value="Dessert">Dessert</ion-option>
-        <ion-option value="Beverage">Beverage</ion-option>
-        <ion-option value="Other">Other</ion-option>
-      </ion-select>
-    </ion-item>
-        <ion-item *ngFor="let fruit of meal">
-          <h2>{{ fruit.name }}</h2>
-          <p>Portion: {{ fruit.portion }}</p>
+          <ion-label floating>Notes</ion-label>
+          <ion-textarea></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <!-- TODO: Pull options in dynamically from endpoint -->
+          <ion-label>Meal Type</ion-label>
+          <ion-select>
+            <ion-option value="Breakfast">Breakfast</ion-option>
+            <ion-option value="Lunch">Lunch</ion-option>
+            <ion-option value="Dinner">Dinner</ion-option>
+            <ion-option value="Snack">Snack</ion-option>
+            <ion-option value="Dessert">Dessert</ion-option>
+            <ion-option value="Beverage">Beverage</ion-option>
+            <ion-option value="Other">Other</ion-option>
+          </ion-select>
         </ion-item>
       </ion-list>
     </ion-card>
+    <ion-list *ngIf="meal.length">
+        <ion-item-divider><h2>Fruits</h2></ion-item-divider>
+        <ion-item *ngFor="let fruit of meal">
+          <h2>{{ fruit.name }}</h2>
+          <p>Portion: {{ fruit.portion }}</p>
+          <button ion-button clear icon-only item-right color="danger"><ion-icon name="trash"></ion-icon></button>
+        </ion-item>
+    </ion-list>
   </form>
   <div padding>
-    <button (click)="showAddFruitModal()" ion-button color="secondary" block>Add Fruit</button>
+    <button full (click)="showAddFruitModal()" ion-button color="secondary" block>
+      Add Fruits
+    </button>
   </div>
 </ion-content>
+<ion-footer>
+  <button *ngIf="meal.length" (click)="submitMeal()" full ion-button color="danger" block>Submit Meal</button>
+</ion-footer>
