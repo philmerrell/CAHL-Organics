@@ -31,24 +31,20 @@
           <!-- TODO: Pull options in dynamically from endpoint -->
           <ion-label>Meal Type</ion-label>
           <ion-select [formControl]="mealForm.controls['type']" required>
-            <ion-option value="Breakfast">Breakfast</ion-option>
-            <ion-option value="Lunch">Lunch</ion-option>
-            <ion-option value="Dinner">Dinner</ion-option>
-            <ion-option value="Snack">Snack</ion-option>
-            <ion-option value="Dessert">Dessert</ion-option>
-            <ion-option value="Beverage">Beverage</ion-option>
-            <ion-option value="Other">Other</ion-option>
+            <ion-option *ngFor="let meal of mealTypes" value="{{ meal }}">{{ meal }}</ion-option>
           </ion-select>
           <div [hidden]="mealForm.controls.type.valid || !mealForm.controls.type.touched">A meal type is required</div>
         </ion-item>
       </ion-list>
     </ion-card>
-    <ion-list *ngIf="meal.length">
-        <ion-item-divider><h2>Fruits</h2></ion-item-divider>
-        <ion-item *ngFor="let fruit of meal">
+    <ion-list *ngIf="fruits.length">
+        <ion-item-divider><h2>Produce</h2></ion-item-divider>
+        <ion-item *ngFor="let fruit of fruits">
           <h2>{{ fruit.name }}</h2>
           <p>Portion: {{ fruit.portion }}</p>
-          <button ion-button clear icon-only item-right color="danger"><ion-icon name="trash"></ion-icon></button>
+          <button (click)="removeFruit(fruit)" ion-button clear icon-only item-right color="danger">
+            <ion-icon name="trash"></ion-icon>
+          </button>
         </ion-item>
     </ion-list>
   </form>
@@ -57,7 +53,16 @@
       Add Fruits
     </button>
   </div>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
 </ion-content>
 <ion-footer>
-  <button *ngIf="meal.length" (click)="submitMeal()" [disabled]="!mealForm.valid || !meal.length" full ion-button color="danger" block>Submit Meal</button>
+  <button *ngIf="fruits.length"
+          (click)="submitMeal()"
+          [disabled]="!mealForm.valid || !fruits.length"
+          full
+          ion-button
+          color="danger"
+          class="submit-meal"
+          block>Submit Meal</button>
 </ion-footer>

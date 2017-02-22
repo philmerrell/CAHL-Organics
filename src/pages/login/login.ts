@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { MealLoggingPage } from '../meal-logging/meal-logging';
 import { LoadingController } from 'ionic-angular';
+import { ApiService } from '../../services/api.service';
 
 /*
   Generated class for the Login page.
@@ -19,7 +20,13 @@ export class LoginPage {
   username: AbstractControl;
   password: AbstractControl;
 
-  constructor(public fb: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController) {
+  constructor(private apiService: ApiService, 
+              public fb: FormBuilder, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public loadingCtrl: LoadingController,
+              private toastCtrl: ToastController) {
+
     this.loginForm = fb.group({
       'username'  : ['', Validators.required],
       'password'  : ['', Validators.required]
@@ -29,23 +36,34 @@ export class LoginPage {
     this.password = this.loginForm.controls['password'];
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad() {}
+
+  public onSubmit() {
+    // TODO: Hit endpoint with creds, set cookie, redirect to meal-logging if 
+    let loader = this.presentLoading();
+    let creds = { 
+      username: this.username.value,
+      password: this.password.value
+    };
     
+    this.apiService.login(creds)
+      .subscribe(result => {
+        if(result.status === 200) {
+          console.log(result);
+          this.goToMealLoggingPage();
+        }
+      },
+      err => {
+        loader.dismiss();
+        this.presentToast();
+      })
   }
 
-  onSubmit() {
-    // TODO: Hit endpoint with creds, set cookie, redirect to meal-logging if successful
-    this.presentLoading();
-    setTimeout(() => {
-      this.goToMealLoggingPage();
-    }, 2000);
-  }
-
-  goToMealLoggingPage() {
+  public goToMealLoggingPage() {
     this.navCtrl.setRoot(MealLoggingPage, {}, {animate: true, direction: 'forward'});
   }
 
-  presentLoading() {
+  private presentLoading() {
     let loader = this.loadingCtrl.create({
       content: "Logging in...",
       dismissOnPageChange: true
@@ -55,6 +73,11 @@ export class LoginPage {
     return loader;
   }
 
-
-
+  private presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Invalid Username or Password',
+      duration: 3000
+    });
+    toast.present();
+  }
 }

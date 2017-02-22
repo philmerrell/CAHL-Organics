@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { minPortionValidator, maxPortionValidator } from './portion.validator';
+import { ApiService } from '../../services/api.service';
 
 /*
   Generated class for the AddFruit page.
@@ -19,17 +21,18 @@ export class AddFruitPage {
   portion: AbstractControl;
   provided: AbstractControl;
   organic: AbstractControl;
+  public produceValues = [];
 
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams, 
               private viewCtrl: ViewController,
-              public fb: FormBuilder) 
-              {
+              public fb: FormBuilder,
+              private apiService: ApiService) {
 
                 this.fruitForm = fb.group({
-                  'name'      : ['', Validators.required],
-                  'portion'   : ['', Validators.required],
+                  'name'      : ['', [ Validators.required ]],
+                  'portion'   : ['', [ Validators.required ]],
                   'provided'  : [false],
                   'organic'   : [false]
                 });
@@ -40,7 +43,9 @@ export class AddFruitPage {
                 this.organic = this.fruitForm.controls['organic'];
               }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() {
+    this.getProduceValues();
+  }
 
   addFruit() {
     let fruit = { 
@@ -49,12 +54,16 @@ export class AddFruitPage {
       provided: this.provided.value, 
       organic: this.organic.value 
     };
-    console.log(fruit);
     this.viewCtrl.dismiss(fruit);
   }
 
   closeModal() {
     this.viewCtrl.dismiss();
+  }
+
+  getProduceValues() {
+    this.apiService.getProduceValues()
+      .subscribe(produce => this.produceValues = produce);
   }
 
 }

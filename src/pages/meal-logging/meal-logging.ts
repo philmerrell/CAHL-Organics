@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NavController, NavParams, ModalController, LoadingController, ToastController } from 'ionic-angular';
 import { AddFruitPage } from '../add-fruit/add-fruit';
+import { ApiService } from '../../services/api.service';
 
 /*
   Generated class for the MealLogging page.
@@ -14,28 +15,44 @@ import { AddFruitPage } from '../add-fruit/add-fruit';
   templateUrl: 'meal-logging.html'
 })
 export class MealLoggingPage {
-  meal = [];
-  mealForm: FormGroup;
-  type: AbstractControl;
-  notes: AbstractControl;
+  public fruits = [];
+  public mealTypes = [];
+  public meal = {
+    image: '',
+    items: [],
+    type: '',
+    notes: ''
+  };
+  public mealForm: FormGroup;
+  public type: AbstractControl;
+  public notes: AbstractControl;
 
-  constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
-              private modalCtrl: ModalController, 
-              private loadingCtrl: LoadingController,
-              private toastCtrl: ToastController,
-              public fb: FormBuilder) {
+  constructor(
+    private apiService: ApiService,
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private modalCtrl: ModalController, 
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    public fb: FormBuilder) {
 
-                this.mealForm = fb.group({
-                  'type'  : ['', Validators.required],
-                  'notes' : ['']
-                });
+      this.mealForm = fb.group({
+        'type'  : ['', Validators.required],
+        'notes' : ['']
+      });
 
-                this.type = this.mealForm.controls['type'];
-                this.notes = this.mealForm.controls['notes'];
-              }
+      this.type = this.mealForm.controls['type'];
+      this.notes = this.mealForm.controls['notes'];
+    }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() {
+    this.getMealTypes();
+  }
+
+  private getMealTypes() {
+    this.apiService.getMealTypeValues()
+      .subscribe(mealTypes => this.mealTypes = mealTypes);
+  }
 
   showAddFruitModal() {
     let modal = this.modalCtrl.create(AddFruitPage);
@@ -43,19 +60,27 @@ export class MealLoggingPage {
 
     modal.onDidDismiss(data => {
       if(data) {
-        this.meal.push(data);
+        this.fruits.push(data);
       }
     });
   }
 
   submitMeal() {
-    // TOOD: Submit meal to endpoint.
-    this.presentLoading();
-    setTimeout(() => {
-      this.resetMeal();
-      // TODO: reset form...
-      this.presentToast();
-    }, 2000);
+    let loader = this.presentLoading();
+    this.meal.notes = this.notes.value;
+    this.meal.type = this.type.value;
+    this.meal.items = this.fruits;
+
+    this.apiService.submitMeal(this.meal)
+      .subscribe(response => {
+        console.log('Submit meal response: ',response);
+        this.presentToast();
+        this.resetMeal();
+      },
+      err => {
+        console.log('Submit meal error: ', err);
+        loader.dismiss();
+      });
   }
 
   presentLoading() {
@@ -76,10 +101,15 @@ export class MealLoggingPage {
     toast.present();
   }
 
+  removeFruit(fruit) {
+    let index = this.fruits.indexOf(fruit);
+    this.fruits.splice(index, 1);
+  }
+
   resetMeal() {
     this.type.setValue('');
     this.notes.setValue('');
-    this.meal = [];
+    this.fruits = [];
   }
 
 }

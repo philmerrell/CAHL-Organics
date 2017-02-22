@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { MealLoggingPage } from '../pages/meal-logging/meal-logging';
 import { AddFruitPage } from '../pages/add-fruit/add-fruit';
+import { ApiService } from '../services/api.service';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,6 @@ import { AddFruitPage } from '../pages/add-fruit/add-fruit';
     MealLoggingPage,
     AddFruitPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, ApiService]
 })
 export class AppModule {}
