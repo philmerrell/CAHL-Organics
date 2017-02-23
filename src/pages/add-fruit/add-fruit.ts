@@ -32,7 +32,7 @@ export class AddFruitPage {
 
                 this.fruitForm = fb.group({
                   'name'      : ['', [ Validators.required ]],
-                  'portion'   : ['', [ Validators.required ]],
+                  'portion'   : [null, [ Validators.required ]],
                   'provided'  : [false],
                   'organic'   : [false]
                 });
@@ -50,7 +50,7 @@ export class AddFruitPage {
   addFruit() {
     let fruit = { 
       name: this.name.value, 
-      portion: this.portion.value, 
+      portion: parseFloat(this.portion.value), 
       provided: this.provided.value, 
       organic: this.organic.value 
     };

@@ -31,7 +31,7 @@
       </ion-item>
       <ion-item>
         <ion-label>Portion</ion-label>
-        <ion-input [formControl]="fruitForm.controls['portion']" min="0.25" max="24" step="0.25" type="number" required></ion-input>
+        <ion-input type="number" [formControl]="fruitForm.controls['portion']" min="0.25" max="24" step="0.25" required></ion-input>
         <div>E.g. One Apple</div>
         <!--<div [hidden]="!portion.hasError('portionAmount')">A portion must be between 0.24 and 24</div>-->
       </ion-item>

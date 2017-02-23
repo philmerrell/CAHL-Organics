@@ -20,7 +20,9 @@ export class MealLoggingPage {
   public meal = {
     image: '',
     items: [],
-    type: '',
+    which: 0,
+    validity: 1,
+    when: 1234567898,
     notes: ''
   };
   public mealForm: FormGroup;
@@ -68,14 +70,17 @@ export class MealLoggingPage {
   submitMeal() {
     let loader = this.presentLoading();
     this.meal.notes = this.notes.value;
-    this.meal.type = this.type.value;
+    // this.meal.which = this.type.value;
+    this.meal.which = 0;
     this.meal.items = this.fruits;
 
+    console.log('Meal: ', this.meal);
     this.apiService.submitMeal(this.meal)
       .subscribe(response => {
         console.log('Submit meal response: ',response);
         this.presentToast();
         this.resetMeal();
+        loader.dismiss();
       },
       err => {
         console.log('Submit meal error: ', err);
@@ -85,8 +90,7 @@ export class MealLoggingPage {
 
   presentLoading() {
     let loader = this.loadingCtrl.create({
-      content: "Submitting meal...",
-      duration: 2000
+      content: "Submitting meal..."
     });
 
     loader.present();
