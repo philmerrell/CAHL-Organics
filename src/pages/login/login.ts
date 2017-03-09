@@ -39,24 +39,24 @@ export class LoginPage {
   ionViewDidLoad() {}
 
   public onSubmit() {
-    // TODO: Hit endpoint with creds, set cookie, redirect to meal-logging if 
-    let loader = this.presentLoading();
-    let creds = { 
-      username: this.username.value,
-      password: this.password.value
-    };
+    // let loader = this.presentLoading();
+    // let creds = { 
+    //   username: this.username.value,
+    //   password: this.password.value
+    // };
     
-    this.apiService.login(creds)
-      .subscribe(result => {
-        if(result.status === 200) {
-          console.log(result);
-          this.goToMealLoggingPage();
-        }
-      },
-      err => {
-        loader.dismiss();
-        this.presentToast();
-      })
+    // this.apiService.login(creds)
+    //   .subscribe(result => {
+    //     if(result.status === 200) {
+    //       console.log(result);
+    //       this.goToMealLoggingPage();
+    //     }
+    //   },
+    //   err => {
+    //     loader.dismiss();
+    //     this.presentToast();
+    //   })
+    this.goToMealLoggingPage();
   }
 
   public goToMealLoggingPage() {

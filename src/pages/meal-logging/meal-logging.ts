@@ -39,12 +39,10 @@ export class MealLoggingPage {
     public fb: FormBuilder) {
 
       this.mealForm = fb.group({
-        'type'  : ['', Validators.required],
-        'notes' : ['']
+        'type'  : ['', Validators.required]
       });
 
       this.type = this.mealForm.controls['type'];
-      this.notes = this.mealForm.controls['notes'];
     }
 
   ionViewDidLoad() {
