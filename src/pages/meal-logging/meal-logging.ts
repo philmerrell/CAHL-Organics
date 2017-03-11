@@ -3,6 +3,7 @@ import { AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/fo
 import { NavController, NavParams, ModalController, LoadingController, ToastController } from 'ionic-angular';
 import { AddFruitPage } from '../add-fruit/add-fruit';
 import { ApiService } from '../../services/api.service';
+import { Camera } from 'ionic-native';
 
 /*
   Generated class for the MealLogging page.
@@ -37,13 +38,13 @@ export class MealLoggingPage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     public fb: FormBuilder) {
-
       this.mealForm = fb.group({
         'type'  : ['', Validators.required]
       });
-
       this.type = this.mealForm.controls['type'];
     }
+
+    public mealImage: string;
 
   ionViewDidLoad() {
     this.getMealTypes();
@@ -67,10 +68,9 @@ export class MealLoggingPage {
 
   submitMeal() {
     let loader = this.presentLoading();
-    this.meal.notes = this.notes.value;
-    // this.meal.which = this.type.value;
     this.meal.which = 0;
     this.meal.items = this.fruits;
+    this.meal.image = this.mealImage;
 
     console.log('Meal: ', this.meal);
     this.apiService.submitMeal(this.meal)
@@ -112,6 +112,20 @@ export class MealLoggingPage {
     this.type.setValue('');
     this.notes.setValue('');
     this.fruits = [];
+  }
+
+  takePicture() {
+    var options = {
+        // Some common settings are 20, 50, and 100
+        destinationType: Camera.DestinationType.DATA_URL,
+        correctOrientation: true  //Corrects Android orientation quirks
+    };
+    Camera.getPicture(options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.mealImage = base64Image;
+    }, (err) => {
+    
+    });
   }
 
 }
