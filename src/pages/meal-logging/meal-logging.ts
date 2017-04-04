@@ -22,8 +22,6 @@ export class MealLoggingPage {
     image: '',
     items: [],
     which: 0,
-    validity: 1,
-    when: 1234567898,
     notes: ''
   };
   public mealForm: FormGroup;
@@ -68,7 +66,6 @@ export class MealLoggingPage {
 
   submitMeal() {
     let loader = this.presentLoading();
-    this.meal.which = 0;
     this.meal.items = this.fruits;
     this.meal.image = this.mealImage;
 
@@ -110,7 +107,6 @@ export class MealLoggingPage {
 
   resetMeal() {
     this.type.setValue('');
-    this.notes.setValue('');
     this.fruits = [];
   }
 
