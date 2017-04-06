@@ -109,6 +109,7 @@ export class MealLoggingPage {
   resetMeal() {
     this.type.setValue('');
     this.fruits = [];
+    this.mealImage = '';
   }
 
   takePicture() {
