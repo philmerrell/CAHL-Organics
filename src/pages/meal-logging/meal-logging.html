@@ -31,7 +31,7 @@
           <!-- TODO: Pull options in dynamically from endpoint -->
           <ion-label>Meal Type</ion-label>
           <ion-select [formControl]="mealForm.controls['type']" required>
-            <ion-option *ngFor="let meal of mealTypes" value="{{ meal }}">{{ meal }}</ion-option>
+            <ion-option *ngFor="let meal of mealTypes;let i = index;" value="{{i}}">{{ meal }}</ion-option>
           </ion-select>
           <div [hidden]="mealForm.controls.type.valid || !mealForm.controls.type.touched">A meal type is required</div>
         </ion-item>

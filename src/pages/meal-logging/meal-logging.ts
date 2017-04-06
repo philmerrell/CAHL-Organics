@@ -68,6 +68,7 @@ export class MealLoggingPage {
     let loader = this.presentLoading();
     this.meal.items = this.fruits;
     this.meal.image = this.mealImage;
+    this.meal.which = Number(this.type.value);
 
     console.log('Meal: ', this.meal);
     this.apiService.submitMeal(this.meal)
