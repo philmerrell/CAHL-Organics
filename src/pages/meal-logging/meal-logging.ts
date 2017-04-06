@@ -114,7 +114,8 @@ export class MealLoggingPage {
 
   takePicture() {
     var options = {
-        // Some common settings are 20, 50, and 100
+        quality: 50,
+        targetWidth: 640,
         destinationType: Camera.DestinationType.DATA_URL,
         correctOrientation: true  //Corrects Android orientation quirks
     };
