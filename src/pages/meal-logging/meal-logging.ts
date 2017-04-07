@@ -123,7 +123,23 @@ export class MealLoggingPage {
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.mealImage = base64Image;
     }, (err) => {
-    
+
+    });
+  }
+
+  uploadImage() {
+    var options = {
+        quality: 50,
+        targetWidth: 640,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: Camera.DestinationType.DATA_URL,
+        correctOrientation: true
+    };
+    Camera.getPicture(options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.mealImage = base64Image;
+    }, (err) => {
+
     });
   }
 

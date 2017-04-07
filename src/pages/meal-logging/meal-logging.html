@@ -17,11 +17,18 @@
   <form [formGroup]="mealForm" novalidate>
     <ion-card>
       <img [src]="mealImage || 'assets/placeholder.jpg'">
-      <ion-fab right style="margin-top: -30px; margin-right: 30px;">
-        <button (click)="takePicture()" ion-fab color="danger">
-          <ion-icon name="camera"></ion-icon>
-        </button>
-      </ion-fab>
+      <div class="buttons">
+        <ion-fab right style="margin-top: -30px; margin-right: 30px;">
+          <button (click)="takePicture()" ion-fab color="danger">
+            <ion-icon name="camera"></ion-icon>
+          </button>
+        </ion-fab>
+        <ion-fab right style="margin-top: -30px; margin-right: 90px;">
+          <button (click)="uploadImage()" ion-fab color="danger">
+            <ion-icon name="image"></ion-icon>
+          </button>
+        </ion-fab>
+      </div>
       <ion-list>
         <ion-item>
           <!--<ion-label floating>Notes</ion-label>
