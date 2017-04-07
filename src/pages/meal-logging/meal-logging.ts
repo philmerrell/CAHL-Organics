@@ -27,6 +27,7 @@ export class MealLoggingPage {
   public mealForm: FormGroup;
   public type: AbstractControl;
   public notes: AbstractControl;
+  public mealImage: string;
 
   constructor(
     private apiService: ApiService,
@@ -41,8 +42,6 @@ export class MealLoggingPage {
       });
       this.type = this.mealForm.controls['type'];
     }
-
-    public mealImage: string;
 
   ionViewDidLoad() {
     this.getMealTypes();

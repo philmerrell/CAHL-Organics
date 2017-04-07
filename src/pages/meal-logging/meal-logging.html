@@ -66,7 +66,7 @@
 <ion-footer>
   <button *ngIf="fruits.length"
           (click)="submitMeal()"
-          [disabled]="!mealForm.valid || !fruits.length"
+          [disabled]="!mealForm.valid || !fruits.length || !mealImage"
           full
           ion-button
           color="danger"
