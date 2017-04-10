@@ -44,7 +44,11 @@
       </ion-item>
       <ion-item>
         <ion-label>Organic</ion-label>
-        <ion-checkbox formControlName="organic" value="false"></ion-checkbox>
+        <ion-checkbox
+          formControlName="organic"
+          [disabled]="fruitForm.controls.provided.value"
+          value="false">
+      </ion-checkbox>
       </ion-item>
     </ion-list>
   <div padding>
