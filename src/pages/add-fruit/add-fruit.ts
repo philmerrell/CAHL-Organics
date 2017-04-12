@@ -31,6 +31,7 @@ export class AddFruitPage implements OnInit {
   public produceValues = [];
   public showDescription: boolean = false;
 
+  public portionTip = '';
 
   constructor(
     public navCtrl: NavController,
@@ -72,6 +73,13 @@ export class AddFruitPage implements OnInit {
           organic: data.organic,
           description: data.description
         };
+
+        this.portionTip = '';
+        for(let i = 0; i < this.produceValues.length; i++) {
+          if(data.name == this.produceValues[i].name) {
+            this.portionTip = 'One portion is: ' + this.produceValues[i].tip;
+          }
+        }
 
         if(data.name === 'Not Listed') {
           this.createFormWithDescription();
