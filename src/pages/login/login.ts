@@ -19,6 +19,7 @@ export class LoginPage {
   loginForm: FormGroup;
   username: AbstractControl;
   password: AbstractControl;
+  authChecked: boolean = false;
 
   constructor(private apiService: ApiService, 
               public fb: FormBuilder, 
@@ -36,11 +37,25 @@ export class LoginPage {
     this.password = this.loginForm.controls['password'];
   }
 
-  ionViewDidLoad() {}
+  ionViewDidLoad() {
+    let loader = this.presentLoading("Loading...");
+    this.apiService.userIsValid()
+      .subscribe(result => {
+        // User has a cookie...
+        loader.dismiss();
+        this.authChecked = true;
+        this.goToMealLoggingPage();
+      },
+      (error) => {
+        // User is not logged in...
+        loader.dismiss();
+        this.authChecked = true;
+      });
+  }
 
   public onSubmit() {
-    let loader = this.presentLoading();
-    let creds = { 
+    let loader = this.presentLoading("Logging in...");
+    let creds = {
       username: this.username.value,
       password: this.password.value
     };
@@ -48,7 +63,6 @@ export class LoginPage {
     this.apiService.login(creds)
       .subscribe(result => {
         if(result.status === 200) {
-          console.log(result);
           this.goToMealLoggingPage();
         }
       },
@@ -63,9 +77,9 @@ export class LoginPage {
     this.navCtrl.setRoot(MealLoggingPage, {}, {animate: true, direction: 'forward'});
   }
 
-  private presentLoading() {
+  private presentLoading(message) {
     let loader = this.loadingCtrl.create({
-      content: "Logging in...",
+      content: message,
       dismissOnPageChange: true
     });
 

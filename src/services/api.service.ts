@@ -12,6 +12,7 @@ export class ApiService {
     private mealTypeUrl = environment.apiBaseUrl + 'mealtype';
     private loginUrl = environment.apiBaseUrl + 'api/login';
     private submitMealUrl = environment.apiBaseUrl + 'api/meal';
+    private userIsValidUrl = environment.apiBaseUrl + 'valid';
 
     constructor(private http: Http) { }
 
@@ -38,6 +39,18 @@ export class ApiService {
         let options = new RequestOptions({ headers: headers, withCredentials: true });
         return this.http.post(this.submitMealUrl, JSON.stringify(meal), options)
         .catch(this.handleError);
+    }
+
+    public userIsValid(): Observable<any> {
+        return this.http.get(this.userIsValidUrl)
+            .map(
+                (result) => {
+                    // console.log(result);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            );
     }
 
     private extractData(res: Response) {

@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-  <form autocomplete="on" [formGroup]="loginForm">
+  <form [hidden]="!authChecked" autocomplete="on" [formGroup]="loginForm">
     <ion-card>
       <ion-list>
         <ion-item>
