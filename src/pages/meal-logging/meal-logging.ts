@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NavController, NavParams, ModalController, LoadingController, ToastController } from 'ionic-angular';
 import { AddFruitPage } from '../add-fruit/add-fruit';
+import { LoginPage } from '../login/login';
 import { ApiService } from '../../services/api.service';
 import { Camera } from 'ionic-native';
 
@@ -80,7 +81,18 @@ export class MealLoggingPage {
       err => {
         console.log('Submit meal error: ', err);
         loader.dismiss();
+        // Somehow check for 401, then do this
+        this.presentAuthError();
+        this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'back'});
       });
+  }
+
+  presentAuthError() {
+    let toast = this.toastCtrl.create({
+      message: "Session expired, please login again",
+      duration: 4000
+    });
+    toast.present();
   }
 
   presentLoading() {
