@@ -19,12 +19,12 @@
       <img [src]="mealImage || 'assets/placeholder.jpg'">
       <div class="buttons">
         <ion-fab right style="margin-top: -30px; margin-right: 20px;">
-          <button (click)="takePicture()" ion-fab color="danger">
+          <button (click)="uploadImage(1)" ion-fab color="danger">
             <ion-icon name="camera"></ion-icon>
           </button>
         </ion-fab>
         <ion-fab right style="margin-top: -30px; margin-right: 80px;">
-          <button (click)="uploadImage()" ion-fab color="danger">
+          <button (click)="uploadImage(0)" ion-fab color="danger">
             <ion-icon name="image"></ion-icon>
           </button>
         </ion-fab>

@@ -123,26 +123,11 @@ export class MealLoggingPage {
     this.mealImage = '';
   }
 
-  takePicture() {
+  uploadImage(imageSource) {
     var options = {
         quality: 50,
         targetWidth: 640,
-        destinationType: Camera.DestinationType.DATA_URL,
-        correctOrientation: true  //Corrects Android orientation quirks
-    };
-    Camera.getPicture(options).then((imageData) => {
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.mealImage = base64Image;
-    }, (err) => {
-
-    });
-  }
-
-  uploadImage() {
-    var options = {
-        quality: 50,
-        targetWidth: 640,
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        sourceType: imageSource,
         destinationType: Camera.DestinationType.DATA_URL,
         correctOrientation: true
     };
