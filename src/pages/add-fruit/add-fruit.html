@@ -27,10 +27,13 @@
           <ion-option *ngFor="let fruit of produceValues" value="{{ fruit.name }}">{{ fruit.name }}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item *ngIf="showDescription">
+      <ion-item [hidden]="!showDescription">
         <ion-label>Description</ion-label>
-        <ion-input type="text" formControlName="description" required></ion-input>
-        <!--<div [hidden]="!portion.hasError('portionAmount')">A portion must be between 0.24 and 24</div>-->
+        <ion-input
+          type="text"
+          formControlName="description"
+          value="{{ fruit.description }}"
+          required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Portion</ion-label>
@@ -39,15 +42,30 @@
         </ion-select>
       </ion-item>
       <p><small>{{ portionTip }}</small></p>
-      <ion-item>
-        <ion-label>Provided</ion-label>
-        <ion-checkbox formControlName="provided" value="false"></ion-checkbox>
-      </ion-item>
-      <ion-item [hidden]="fruitForm.controls.provided.value">
-        <ion-label>Organic</ion-label>
-        <ion-checkbox formControlName="organic" value="false">
-      </ion-checkbox>
-      </ion-item>
+      <ion-list radio-group formControlName="provided">
+        <ion-item>
+          <ion-label>Provided</ion-label>
+          <ion-radio value="provided" checked="true"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Not Provided</ion-label>
+          <ion-radio value="notprovided"></ion-radio>
+        </ion-item>
+      </ion-list>
+      <ion-list
+        radio-group
+        formControlName="organic"
+        [hidden]="fruitForm.controls.provided.value=='provided'"
+      >
+        <ion-item>
+          <ion-label>Organic</ion-label>
+          <ion-radio value="organic" checked></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Conventional</ion-label>
+          <ion-radio value="notorganic"></ion-radio>
+        </ion-item>
+      </ion-list>
     </ion-list>
   <div padding>
     <button

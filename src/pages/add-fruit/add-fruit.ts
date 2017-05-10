@@ -18,9 +18,9 @@ export class AddFruitPage implements OnInit {
   fruit = {
     name: '',
     portion: null,
-    provided: false,
-    organic: false,
-    description: '',
+    provided: true,
+    organic: true,
+    description: 'nil',
   };
   fruitForm: FormGroup;
   name: AbstractControl;
@@ -39,7 +39,7 @@ export class AddFruitPage implements OnInit {
     public navParams: NavParams, 
     private viewCtrl: ViewController,
     public fb: FormBuilder,
-    private apiService: ApiService) {             
+    private apiService: ApiService) {
   }
 
   ngOnInit() {
@@ -83,12 +83,11 @@ export class AddFruitPage implements OnInit {
   subscribeToFormChanges() {
     this.fruitForm.valueChanges
       .subscribe(data => {
-        console.log(data);
         this.fruit = {
           name: data.name,
           portion: parseFloat(data.portion),
-          provided: data.provided,
-          organic: data.organic,
+          provided: data.provided === 'provided',
+          organic: data.organic === 'organic',
           description: data.description
         };
 
@@ -98,35 +97,36 @@ export class AddFruitPage implements OnInit {
             this.portionTip = 'One portion is: ' + this.produceValues[i].tip;
           }
         }
-
         if(data.name === 'Not Listed') {
-          this.createFormWithDescription();
-        } else if(data.name !== 'Not Listed' && this.showDescription){
-          this.createForm();
+          if(this.fruit.description === 'nil') {
+              this.fruit.description = '';
+          }
+          this.showDescription = true;
+        } else {
+          this.fruit.description = 'nil';
+          this.showDescription = false;
         }
+        console.log(this.fruit);
       });
   }
 
   createForm() {
-    this.fruitForm = this.fb.group({
-      'name'      : [this.fruit.name, [ Validators.required ]],
-      'portion'   : [this.fruit.portion, [ Validators.required ]],
-      'provided'  : [this.fruit.provided],
-      'organic'   : [this.fruit.organic]
-    });
-    this.showDescription = false;
-    this.subscribeToFormChanges();
-  }
-
-  createFormWithDescription() {
+    let p = 'provided';
+    let o = 'organic';
+    if(this.fruit.provided == false) {
+      p = 'notprovided';
+    }
+    if(this.fruit.organic == false) {
+      o = 'notorganic';
+    }
     this.fruitForm = this.fb.group({
       'name'        : [this.fruit.name, [ Validators.required ]],
       'description' : [this.fruit.description, [Validators.required]],
       'portion'     : [this.fruit.portion, [ Validators.required ]],
-      'provided'    : [this.fruit.provided],
-      'organic'     : [this.fruit.organic]
+      'provided'    : [p],
+      'organic'     : [o]
     });
-    this.showDescription = true;
+    this.showDescription = false;
     this.subscribeToFormChanges()
   }
 
