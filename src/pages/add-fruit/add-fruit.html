@@ -38,7 +38,7 @@
       <ion-item>
         <ion-label>Portion</ion-label>
         <ion-select formControlName="portion" required>
-          <ion-option *ngFor="let p of portions" value="{{ p.v }}">{{ p.k }}</ion-option>
+          <ion-option *ngFor="let p of portions" value="{{ p }}">{{ p }}</ion-option>
         </ion-select>
       </ion-item>
       <p><small>{{ portionTip }}</small></p>
