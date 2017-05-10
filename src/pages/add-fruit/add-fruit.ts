@@ -32,6 +32,7 @@ export class AddFruitPage implements OnInit {
   public showDescription: boolean = false;
 
   public portionTip = '';
+  public portions = [];
 
   constructor(
     public navCtrl: NavController,
@@ -43,6 +44,23 @@ export class AddFruitPage implements OnInit {
 
   ngOnInit() {
     this.getProduceValues();
+    for(let i = 1;i <= 40;i++) {
+      let w = Math.floor(i/4);
+      let q = i%4
+      let s = '';
+      if(w > 0) {
+        s += w + ' ';
+      }
+      if(q > 0) {
+          if(q == 2) {
+              s += '1/2';
+          } else {
+            s += q + '/4';
+          }
+      }
+      let p = {k:s, v:i*0.25};
+      this.portions.push(p);
+    }
     this.createForm();
   }
 

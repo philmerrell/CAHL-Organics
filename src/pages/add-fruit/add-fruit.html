@@ -34,8 +34,9 @@
       </ion-item>
       <ion-item>
         <ion-label>Portion</ion-label>
-        <ion-input type="number" formControlName="portion" min="0.25" max="24" step="0.25" required></ion-input>
-        <!--<div [hidden]="!portion.hasError('portionAmount')">A portion must be between 0.24 and 24</div>-->
+        <ion-select formControlName="portion" required>
+          <ion-option *ngFor="let p of portions" value="{{ p.v }}">{{ p.k }}</ion-option>
+        </ion-select>
       </ion-item>
       <p><small>{{ portionTip }}</small></p>
       <ion-item>
