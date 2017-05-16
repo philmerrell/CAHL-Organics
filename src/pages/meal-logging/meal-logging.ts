@@ -81,9 +81,10 @@ export class MealLoggingPage {
       err => {
         console.log('Submit meal error: ', err);
         loader.dismiss();
-        // Somehow check for 401, then do this
-        this.presentAuthError();
-        this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'back'});
+        if(err.trim().startsWith('401')) {
+          this.presentAuthError();
+          this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'back'});
+        }
       });
   }
 
