@@ -59,7 +59,6 @@ export class LoginPage {
       username: this.username.value,
       password: this.password.value
     };
-    
     this.apiService.login(creds)
       .subscribe(result => {
         if(result.status === 200) {
@@ -70,7 +69,6 @@ export class LoginPage {
         loader.dismiss();
         this.presentToast();
       })
-    // this.goToMealLoggingPage();
   }
 
   public goToMealLoggingPage() {
